@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block "left-content" %}
+	<span id="leftsidebarspan">
+		<h3>MENU</h3>
+		<hr>
+	</span>
+    <ul class="nav nav-pills nav-stacked">
+		<li role="presentation" class="{{ menuhome|default:'' }}"><a href="/" align="center">Home</a></li>
+		<li role="presentation" class ="{{ menusearch|default:'' }}"><a href="/search" align="center">Search</span></a></li>
+		{% if user.is_staff %}
+			<li role="presentation" class ="success"><a href="/admin" align="center">Site Admin Panel</span></a></li>
+		{% endif %}
+
+	<span id="leftsidebarspan">
+		<h3>RESTAURANT</h3>
+		<hr>
+	</span>
+    <ul class="nav nav-pills nav-stacked">	
+  		{% if user.is_authenticated %}
+  			<li role="presentation" class ="{{ menulogin|default:'' }}"><a href="/administrate" align="center">Restaurant Panel</a></li>
+  			<li role="presentation" ><a href="/logout" align="center">Sign Out</a></li>
+
+  		{% else %}
+  			<li role="presentation" class ="{{ menuregister|default:'' }}"><a href="/register" align="center">Register</a></li>
+			<li role="presentation" class ="{{ menulogin|default:'' }}"><a href="/login" align="center">Sign In</a></li>
+  		{% endif %}
+	</ul>
+{% endblock %}
+
+{% block "right-content" %}
+<div class="row">
+    <div class="col col-md-8 col-md-offset-2" style="padding-top: 50px;">
+
+		<div class="panel panel-primary" id=loginpanel>
+			<div class="panel-heading">
+		    	<h3 align="center">Authentication</h3>
+		  	</div>
+		  	
+		  	<div class="panel-body">
+		    	<form method="post">
+		    		{% csrf_token %}
+		    		<div class="input-group col col-md-8 col-md-offset-2">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        <input type="text" class="form-control" placeholder="Username" name="username" required>
+                    </div>
+
+                    <div class="input-group col col-md-8 col-md-offset-2">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg col col-md-6 col-md-offset-3" align="center">Sign In</button>	
+
+		    	</form>
+		  	</div>
+		</div>
+
+    </div>
+</div>
+{% endblock %}
+
+
+{% block "css" %}
+<style>
+form button, form .input-group {
+    margin-top: 12px;
+}
+</style>
+{% endblock %}

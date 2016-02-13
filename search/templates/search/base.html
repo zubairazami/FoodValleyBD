@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Food Valley BD</title>
+    {% load staticfiles %}
+    <!-- CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/restaurant.css' %}" rel="stylesheet">
+    <link href="{% static 'css/customNavbar.css' %}" rel="stylesheet">
+    <style>body{padding-bottom:30px;}</style>
+    {% block "css" %}{% endblock %}
+    
+    <!-- JS -->
+
+
+</head>
+
+<body>
+<!-- Navigation -->
+{% include "navigationbar.html" %}
+
+<!-- Session Messages -->
+{% if messages %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-md-6 col-md-offset-3">
+                {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>{{ message.tags|title }}!</strong>
+                    {{ message }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!--    Main Content     -->
+
+<div class="container" id="container-id">
+    <div class="row-fluid row-eq-height" style="background-color:yellow;">
+            <div class="col-md-2" id="leftsidebar">
+                <!-- {% include "leftsidebar.html" %} -->
+                {% block "left-content" %}{% endblock %}
+            </div>
+            <div class="col-md-10" id="rightdiv">
+                {% block "right-content" %}{% endblock %}
+            </div>
+    </div>
+</div>
+
+<footer class="footer bg-primary">
+      <div class="container">
+        <div class="col col-md-8 col-md-offset-2">
+            <h5 align="center">Copyright: Zubair Azami Badhon</h5>
+            <h5 align="center">Mail: foodvalleybd@localhost.com</h5>
+            <h6></h6>
+        </div>
+      </div>
+</footer>
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+{% block "js" %}{% endblock %}
+</body>
+</html>

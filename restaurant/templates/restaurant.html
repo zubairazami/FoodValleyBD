@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load js %}
+}
+    
+{% block "left-content" %}
+    <span id="leftsidebarspan">
+        <h3>MENU</h3>
+        <hr>
+    </span>
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class=""><a href="/" align="center">Home Page</a></li>
+        <li role='presentation'><a href="/search" align="center">Search</a></li>
+        {% if user.is_authenticated %}
+            <li role="presentation" class="active"><a href="{% url 'restaurantinfo' %}" align="center">Restaurant Details</a></li>
+            <li role="presentation" class =""><a href="{% url 'restauranteditdetails' %}" align="center">Update Details</a></li>
+            <li role="presentation" ><a href="{% url 'restaurantupdateitems' %}" align="center">Update Food Items</a></li>
+            <li role="presentation" ><a href="/logout" align="center">Sign Out</a></li>
+        {% endif %}
+        
+        {% if user.is_staff %}
+            <li role="presentation" class ="success"><a href="/admin" align="center">Site Admin Panel</span></a></li>
+        {% endif %}
+        
+    </ul>
+{% endblock %}
+
+{% block "right-content" %}
+<div class="row" style="padding-top:20px;">
+   <div class="col col-md-10 col-md-offset-1" >
+        
+        <div class="panel panel-default" id="restaurant-panel">
+            <div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+                <h3 align="center"><strong>{{restaurant.restaurant_name}}</strong></h3>
+            </div>
+            
+            <div class="panel-body" style="background-color:white;">
+                
+                <table class="col col-md-12 table" border="0" id="restaurant-table">
+                    <tr>
+                        <td class="col col-md-3"><span class="input-group-addon" id="td_span"><h5>Propietor :</h5> </span> </td>
+                        <td class="col col-md-9"><span class="input-group-addon" id="td2_span"><h5>{{restaurant.proprietor_name}}</h5></span></td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="col col-md-3"><span class="input-group-addon" id="td_span"><h5>Email</h5></span> </td>
+                        <td class="col col-md-9"><span class="input-group-addon" id="td2_span"><h5>{{restaurant.login.email}}</h5></span></td>
+                    </tr>
+
+
+                     <tr>
+                        <td  class="col col-md-3"><span class="input-group-addon" id="td_span"><h5>Address</h5></span> </td>
+                        <td class="col col-md-9"><span class="input-group-addon" id="td2_span"><h5>{{restaurant.address}}</h5></span></td>
+                    </tr>
+
+
+                    <tr>
+                        <td  class="col col-md-3"><span class="input-group-addon" id="td_span"><h5>District</h5></span> </td>
+                        <td class="col col-md-9"><span class="input-group-addon" id="td2_span"><h5>{{restaurant.district}}</h5></span></td>
+                    </tr>
+
+                    {% if restaurant.website and restaurant.website.strip %}
+                    <tr>
+                        <td  class="col col-md-3"><span class="input-group-addon" id="td_span"><h5>Website</h5></span> </td>
+                        <td class="col col-md-9">
+                            <span class="input-group-addon" id="td2_span">
+                                <h5>
+                                    <a href="{{restaurant.website}}">{{restaurant.website}}</a>
+                                </h5>
+                            </span>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    
+                </table>
+              
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div id ="map-container-2" class="col col-md-12">
+                <div id="map-header-2">
+                    <h3 align="center"><span><u>Location</u></span></h3>
+                </div>
+                <div id="map-canvas-2" class="col-md-12">
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel panel-default" style="margin-top:100px;"id="restaurant-panel">
+            <div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+                <h3 align="center"><strong>Food Item</strong></h3>
+            </div>
+            
+            <div class="panel-body" style="background-color:white;">
+                
+                <table class="table table-hover col col-md-12">
+                <thead>
+                    <tr>
+                        <th class="col col-md-3"><h4 align="left"><strong>ITEM</strong></h4></th>
+                        <th class="col col-md-3"><h4 align="center"><strong>ELEMENT</strong></h4></th>
+                        <th class="col col-md-3"><h4 align="right"><strong>PRICE</strong></h4></th>
+                    </tr>
+
+                </thead>    
+                
+                 <tbody>
+                {% for item in restaurant.item_set.all %}
+
+                    <tr>
+                        <td class="col col-md-3 "  >
+                            <a href="{% url 'search:item' item.item_id %}">
+                                <h4 align="left">{{item.item_name}}</h4> 
+                            </a>
+                        </td>
+                        
+                        <td class="col col-md-6 ">
+                            <h5 align="center" style="margin:5px; color:#337AB7;">
+                                {% for element in item.element_set.all %}
+                                    {{element.element_name}}  
+                                {% endfor %}
+                            </h5>
+                       </td>
+
+                        <td class="col col-md-3 " >
+                            <h4 align="right" style="color:#337AB7;">{{item.price}}</h4>
+                        </td>
+                    </tr>
+
+                {%  endfor %}
+                 <tbody>
+                 </table>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+
+
+{% block "js" %}
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript">
+    function restaurantmap() 
+    {
+        var latitude = {{ restaurant.latitude | js }};
+        var longitude= {{ restaurant.longitude | js }};
+        var name={{restaurant.restaurant_name | js}};
+        var myLatlng = new google.maps.LatLng(latitude,longitude);
+        var opts = { 'zoom': 15, 'center': myLatlng, 'mapTypeId': google.maps.MapTypeId.ROADMAP } 
+        
+        var map = new google.maps.Map(document.getElementById('map-canvas-2'), opts);
+        
+        var marker = new google.maps.Marker({ position: myLatlng, map: map, title: name });
+    }
+    google.maps.event.addDomListener(window, 'load', restaurantmap);
+ </script>
+
+    
+{% endblock %}
+
+<!-- <script src="{% static 'js/resturant.js' %}"></script> -->
+
+
+
+

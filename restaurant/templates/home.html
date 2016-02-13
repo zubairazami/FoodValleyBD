@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+    
+{% block "left-content" %}
+    <span id="leftsidebarspan">
+        <h3>MENU</h3>
+        <hr>
+    </span>
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="{{ menuhome|default:'' }}"><a href="/" align="center">Home</a></li>
+        <li role="presentation" class ="{{ menusearch|default:'' }}"><a href="/search" align="center">Search</span></a></li>
+        {% if user.is_staff %}
+            <li role="presentation" class ="success"><a href="/admin" align="center">Site Admin Panel</span></a></li>
+        {% endif %}
+
+    <span id="leftsidebarspan">
+        <h3>RESTAURANT</h3>
+        <hr>
+    </span>
+    <ul class="nav nav-pills nav-stacked">  
+        {% if user.is_authenticated %}
+            <li role="presentation" class ="{{ menulogin|default:'' }}"><a href="{% url 'restaurantinfo' %}" align="center">Restaurant Panel</a></li>
+            <li role="presentation" ><a href="/logout" align="center">Sign Out</a></li>
+
+        {% else %}
+            <li role="presentation" class ="{{ menuregister|default:'' }}"><a href="/register" align="center">Register</a></li>
+            <li role="presentation" class ="{{ menulogin|default:'' }}"><a href="/login" align="center">Sign In</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block "right-content" %}
+<div class="row" style="padding-top:30px;">
+   <div class="col col-md-11 col-md-offset-1"> <!-- col-md-offset-1 -->
+        <div class="well">
+            <h1><strong>Food Valley BD</strong></h1>
+            <h3>Find nearest food corner accross the country.</h3>
+            <br>
+
+            <p>
+				Welcome to <strong>Food Valley BD</strong>, a little not-profitable site for you to find your favourite food at the  nearest location accross the country. You are new to a city or a town ? Need to get yourself in some restaurant ?? Need the exact food item as you desired ?? Ask us, we gladly help you to find . Name your food item, name your budget and your location, we find you the resaurant, the hotel or the food corner where you can get what you want to have.
+            </p>
+            <br/>	
+            <p>
+            	If you are an owner of a restaurant, hotel, or food corner, register it with our site and put what types of food do you offer, your location. We will guide the food lovers towards your restaurant.
+            </p>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

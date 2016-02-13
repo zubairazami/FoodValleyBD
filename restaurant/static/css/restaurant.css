@@ -1,0 +1,329 @@
+/*.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}*/
+
+
+
+ul li hr
+{
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+body
+{
+	padding-top: 50px;
+	background-color: #AAABAD;
+	background-color: #222222;
+
+}
+
+/*<--------------------------------website container portion-----------------------------> */
+
+#container-id
+{
+	background-color: #222222;
+	min-height:800px;
+}
+
+#leftsidebar
+{
+	padding-top: 50px;
+	background-color: #222222;
+	padding-left: 0px;
+	padding-right: 0px;
+	border: none;
+}
+
+#leftsidebarspan h3
+{
+	font-weight: bold;
+	text-align: center;
+	color: #E5FFFF;
+
+}
+
+#leftsidebar .panel-heading
+{
+	background-color: #E8E8E8;
+}
+
+#leftsidebar .panel-body
+{
+	background-color: #E8E8E8;
+}
+
+#rightdiv
+{
+	padding-top: 50px;
+	background-color: #222222;
+	/*min-height: 2000px;*/
+}
+
+/*<--------------------------------website container portion-----------------------------> */
+
+
+#loginpanel
+{
+	border-color: #222222;
+}
+
+
+/*<--------------------------------register.html portion----------------------------->*/
+#registration-panel
+{
+	border-color: #222222;
+}
+
+#prepandID
+{
+	min-width: 150px;
+	text-align: right;
+}
+
+#map-container
+{
+	margin-top: 20px;
+	/*background-color: #222222;*/
+	min-height: 500px;
+	margin-bottom: 20px;
+}
+
+#map-header
+{
+	margin-top: 10px;
+}
+
+#map-header h4 span
+{
+	color: #337AB7;
+}
+
+
+#map-canvas
+{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #CCC;
+	min-height: 500px;
+}
+
+/*<--------------------------------register.html portion----------------------------->*/
+
+/*<--------------------------------restaurant.html portion----------------------------->*/
+
+#restaurant-panel
+{
+	border-color: #222222;
+}
+
+#td_span h5
+{
+	font-family: Tahoma;
+	font-weight: bold;
+}
+
+#td2_span h5
+{
+	font-family: Tahoma;
+	font-weight: bold;
+	font-style: italic;
+}
+
+#map-container-2
+{
+	margin-top: 0px;
+	background-color: #222222;
+	min-height: 500px;
+	margin-bottom: 20px;
+}
+
+#map-header-2
+{
+	margin-top: 10px;
+}
+
+#map-header-2 h3 span
+{
+	color: #1A70BA;
+}
+
+
+
+#map-canvas-2
+{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #CCC;
+	min-height: 500px;
+}
+
+/*<--------------------------------restaurant.html portion----------------------------->*/
+
+
+
+
+/*<--------------------------------Sticky footer @ base.html----------------------------->*/
+html 
+{
+  position: relative;
+  min-height: 100%;
+}
+body 
+{
+  margin-bottom: 60px;
+}
+
+/*Margin bottom by footer height */
+
+.footer 
+{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+}
+
+/*<--------------------------------Sticky footer @ base.html----------------------------->*/
+
+
+
+/*<-------------------------------------updateitems.html---------------------------------->*/
+
+#element-text-area
+{
+	resize:none;
+	min-height:100px;
+	text-align: center;
+}
+
+#additem-panel
+{
+	border-color: #222222;
+}
+
+/*<-------------------------------------updateitems.html---------------------------------->*/
+
+/*<-------------------------------------search.html---------------------------------->*/
+
+#prepandID2
+{
+	min-width: 180px;
+	text-align: left;
+}
+#search-panel
+{
+	border-color: #222222;
+}
+#search-result-panel
+{
+	border-color: #222222;
+}
+/*<-------------------------------------------search.html---------------------------------------->*/
+
+
+/*<-------------------------------------(search)restaurant.html---------------------------------->*/
+#search-restaurant-table
+{
+	padding:0px;
+	margin-bottom: 0px;
+}
+
+#search-restaurant-table > thead > tr > th > h4
+{
+	color:#3371B7;
+}
+
+#search-restaurant-table > tbody > tr > td > h5
+{
+	color: #3371B7;
+	text-align: center;
+}
+/*<-------------------------------------(search)restaurant.html---------------------------------->*/
+
+
+/*<----------------------------------------(search)item.html------------------------------------->*/
+
+#item-panel
+{
+	border-color: #222222;
+	margin-bottom: 0px;
+}
+
+#item_table
+{
+	margin: 0px;
+}
+#item_table > tbody > tr > td > h4
+{
+	font-family: Tahoma;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: left;
+	margin-left: 70px;
+	color: #3371B7;
+}
+
+#item_table > tbody > tr > td > h5
+{
+	font-family: Tahoma;
+	font-weight: bold;
+	text-align: right;
+	margin-right: 70px;
+	color: #3371B7;
+}
+
+#item_table > tbody > tr > td > a > h5
+{
+	font-family: Tahoma;
+	font-weight: bold;
+	text-align: right;
+	margin-right: 70px;
+}
+
+
+
+#review_panel
+{
+	margin-top: 50px;
+	border-color: #222222;
+	border-width: 0px;
+}
+
+#reviews_panel
+{
+	margin-top: 50px;
+	border-color: #222222;
+	border-width: 0px;
+}
+
+#rating
+{
+	text-align: center;
+}
+#rating > option
+{
+	text-align: center;
+}
+
+#review
+{
+	height: 100px;
+}
+#review_title
+{
+	font-size: 24px;
+	font-style: italic;
+}
+textarea 
+{
+		resize: none;
+}
+/*<----------------------------------------(search)item.html------------------------------------->*/
+
+
+

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load js %}
+}
+    
+{% block "left-content" %}
+    <span id="leftsidebarspan">
+        <h3>MENU</h3>
+        <hr>
+    </span>
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class=""><a href="/" align="center">Home Page</a></li>
+        <li role='presentation' class='active'><a href="/search" align="center">Search</a></li>
+        {% if user.is_authenticated %}
+            <li role="presentation" class=""><a href="{% url 'restaurantinfo' %}" align="center">Restaurant Details</a></li>
+            <li role="presentation" class =""><a href="{% url 'restauranteditdetails' %}" align="center">Update Details</a></li>
+            <li role="presentation" ><a href="{% url 'restaurantupdateitems' %}" align="center">Update Food Items</a></li>
+            <li role="presentation" ><a href="/logout" align="center">Sign Out</a></li>
+        {% endif %}
+        
+        {% if user.is_staff %}
+            <li role="presentation" class ="success"><a href="/admin" align="center">Site Admin Panel</span></a></li>
+        {% endif %}
+        
+    </ul>
+{% endblock %}
+
+{% block "right-content" %}
+<div class="row" style="padding-top:20px;">
+   <div class="col col-md-10 col-md-offset-1" >
+        
+        <div class="panel panel-default" id="item-panel">
+            
+            <div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+                <a href="{% url 'search:item' item.item_id %}">
+                    <h3 align="center">
+                        <strong>{{item.item_name}}</strong>
+                    </h3>
+                </a>
+            </div>
+            
+            <div class="panel-body" style="background-color:white;padding:0px;">
+                <table class="table table-hover col col-md-12" id='item_table'>
+                     <tbody>
+                        <tr>
+                            <td class="col col-md-6">
+                                <h4>Restaurant : </h4>
+                            </td>
+                            
+                            <td class="col col-md-6">
+                                <a href="{% url 'search:restaurant' item.restaurant.restaurant_id %}">
+                                    <h5>{{item.restaurant.restaurant_name}}</h5>
+                                </a>
+                           </td>
+                        </tr >
+                        <tr>
+                            <td class="col col-md-6">
+                                 <h4>Price(BDT) : </h4>
+                            </td>
+                            
+                            <td class="col col-md-6">
+                               <h5>{{item.price}}</h5>
+                           </td>
+                        </tr>
+                        <tr>
+                            <td class="col col-md-6" >
+                                 <h4 >Elements : </h4>
+                            </td>
+                            
+                            <td class="col col-md-6">
+                                {% for element in item.element_set.all %}
+                                    <h5>{{element.element_name}}</h5>
+                                {% endfor %}
+                           </td>
+                        </tr>
+                     </tbody>
+                 </table>           
+            </div>
+        </div>
+
+        <div class="panel panel-default" id="review_panel">
+            <div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+                <h3 align="center">Review Item review</h3>
+            </div>
+            
+            <div class="panel-body">
+                <form action='/search/item/addreview/{{item.item_id}}' method="post" name="reviewform" id="reviewform">
+                    {% csrf_token %}
+                    
+                    <div class="input-group">
+                        <span class="input-group-addon" id='prepandID'>Title:</span>
+                        <input type="text" class="form-control" placeholder="No punctuation character except comma are allowed" name="title" maxlength="100" pattern="[a-zA-Z0-9][a-zA-Z0-9 ,]*"value="{{ title|default:'' }}">
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon" id="prepandID">Username :</span>
+                        <input type="text" class="form-control" placeholder="Alphabets, numbers & underscores are allowed" name="username" maxlength="30" minlength="5" pattern="[a-zA-z0-9_]*" value="{{ username|default:'' }}" required>
+                    </div>
+
+                    <div class="input-group " >
+                        <span class="input-group-addon" id="prepandID">Email :</span>
+                        <input type="email" class="form-control" name="email" x-moz-errormessage="This is not a valid e-mail" value="{{ email|default:'' }}" required>
+                    </div>
+
+
+                    <div class="input-group" >
+                        <span class="input-group-addon" id="prepandID">Rate:</span>
+                        <select class="form-control" name='rating' id='rating'>
+                            <option value='1'> Disappointed </option>
+                            <option value='2'> Not Promissing </option>
+                            <option value='3' selected> OK </option>
+                            <option value='4'> Good</option>
+                            <option value='5'> Awesome </option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon" id="prepandID">Review:</span>
+                        <textarea class="form-control" name="review" id='review' maxlength="4000" minlength="10" >{{ review|default:'' }}</textarea>
+                    </div>
+                    <button class="btn btn-primary col col-md-6 col-md-offset-3" style="margin-top:10px;" type="submit">Post</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default" id="reviews_panel">
+            <div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+                <h3 align="center">All reviews</h3>
+            </div>
+            
+            <div class="panel-body">
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="panel panel-info" style='border-color:#ffffff;'>
+                    <div class="panel-heading" >
+                        <h2 class="panel-title lead text-center" id='review_title'>{{review.title}}</h2>
+                    </div>
+                    <div class="panel-body">
+                       <p class='text-center well' style="text-align: justify;text-justify: inter-word;margin:0px;">{{review.review}}</p>
+                       
+                    </div>
+                    <div class="panel-footer" style="background-color:#D9EDF7;">
+                       <p class='text-right' style="margin-bottom:0px;">- <strong>{{review.username}} ( {{review.email}} )</strong> </p>
+                       <p class='text-right' >Rating : <strong>{{review.get_rating_display}}</strong> ({{review.rating}} star)</p>
+                    </div>
+                </div>
+                <hr style="height:1px;border:none;color:#1A70BA;background-color:#1A70BA;"/>
+                {% endfor %}
+            {% else %}
+                <div class='lead'>
+                    <p align='center'>No Review Available</p>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+{% block "css" %}
+<style>
+form button, form .input-group {
+    margin-top: 5px;
+}
+</style>
+{% endblock %}
+{% block "js" %}
+    
+{% endblock %}
+<!-- <script src="{% static 'js/resturant.js' %}"></script> -->
+
+
+
+

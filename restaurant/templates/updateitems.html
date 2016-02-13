@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load js %}
+
+{% block "left-content" %}
+    <span id="leftsidebarspan">
+        <h3>MENU</h3>
+        <hr>
+    </span>
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class=""><a href="/" align="center">Home Page</a></li>
+        <li role='presentation'><a href="/search" align="center">Search</a></li>
+        {% if user.is_authenticated %}
+            <li role="presentation" ><a href="{% url 'restaurantinfo' %}" align="center">Restaurant Details</a></li>
+            <li role="presentation" ><a href="{% url 'restauranteditdetails' %}" align="center">Update Details</a></li>
+            <li role="presentation" class="active"><a href="{% url 'restaurantupdateitems' %}" align="center">Update Food Items</a></li>
+            <li role="presentation" ><a href="/logout" align="center">Sign Out</a></li> 
+        {% endif %}
+        
+        {% if user.is_staff %}
+            <li role="presentation" class ="success"><a href="/admin" align="center">Site Admin Panel</span></a></li>
+        {% endif %}
+        
+    </ul>
+{% endblock %}
+
+{% block "right-content" %}
+<div class="row">
+    <div class="col col-md-10 col-md-offset-1" style="padding-top: 20px;">
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - start of additem panel - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<div class="panel panel-default" id="additem-panel">
+			
+            <div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+		    	<h3 align="center">Add Item</h3>
+		  	</div>
+		  	
+		  	<div class="panel-body">
+		    	<form method="post" name="additemform" id="additemform">
+		    		{% csrf_token %}
+		    		
+		    		<div class="input-group">
+		    			<span class="input-group-addon" id='prepandID'>Item Name :</span>
+		    			<input type="text" class="form-control" placeholder="Only alphabets and spaces are allowed" name="item_name" maxlength="70" minlength="5" pattern="[a-zA-Z .]*" value="" required>
+		    		</div>
+
+		    		<div class="input-group" >
+		    			<span class="input-group-addon" id="prepandID">Item Price :</span>
+		    			<input type="number" step="0.1" class="form-control" name="price" maxlength="70" minlength="6" value="" required>
+		    		</div>
+
+		    		<div class="input-group" >
+		    			<span class="input-group-addon" id="prepandID">Existing Elements :</span>
+		    			<select class="form-control" id="existing-element-select">
+		    				{% for element in elements %}
+		    				  <option value="{{element}}">{{element}}</option>
+		    				{% endfor %}
+		    			</select>
+		    		</div>
+
+		    		
+		    		<div class="input-group">
+             	 	    <span class="input-group-addon" id="prepandID">New Element :</span>
+             	 	    <input type="text" class="form-control" id="new-element-text" placeholder="Add those element not found in Existing Elements" pattern="[a-zA-Z ]*">
+              			<span class="input-group-btn" style="padding:0px;margin:0px">
+                  		    <button type="button" class="btn btn-primary" id="new_element_add_button" style="margin:0px;"> + </button>
+             			</span>
+          	        </div>
+
+
+
+          			<div class="input-group">
+             	 		<span class="input-group-addon bg-primary" id="prepandID">Element List :</span>
+             	 		<textarea class="form-control" id="element-text-area" name='element_list' readonly></textarea>
+          				<span class="input-group-btn" >
+                  			<button type="button" id="remove-button"class="btn btn-danger" style="margin:0px;min-height:100px;">Remove All</button>
+              			</span>
+          			</div>
+			        
+                    <button class="btn btn-primary col col-md-2 col-md-offset-5" style="margin-top:10px;" name='addbutton' type="submit">Add</button>
+		    	</form>
+		  	</div>
+		</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - end of additem panel - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - start of delete panel - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+        <div class="panel panel-default" id="additem-panel" style="margin-top:50px;">
+            
+            <div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+                <h3 align="center">Delete Items</h3>
+            </div>
+            
+            <div class="panel-body">
+                <form method="post" name="deleteitemform" id="deleteitemform" style="padding-bottom:50px; padding-top:10px;">
+                    {% csrf_token %}
+                    
+                    <div class="input-group">
+                        <span class="input-group-addon" id='prepandID'>Item Name :</span>
+                        <select class="form-control" id="delete-item-select" name='delete_select'>
+                            {% for item in items %}
+                            <option value="{{item.item_id}}">{{item.item_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary col col-md-2 col-md-offset-5" style="margin-top:10px;" name='deletebutton' type="submit" value="delete">Delete</button>
+                </form>
+            </div>
+        </div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - start of delete panel - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block "css" %}
+<style>
+form button, form .input-group {
+    margin-top: 5px;
+}
+</style>
+{% endblock %}
+
+{% block "js" %}
+    <script src="{% static 'js/updateitems.js' %}"></script>
+{% endblock %}

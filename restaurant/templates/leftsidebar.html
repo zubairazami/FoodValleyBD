@@ -1,0 +1,25 @@
+	<span id="leftsidebarspan">
+		<h3>MENU</h3>
+		<hr>
+	</span>
+    <ul class="nav nav-pills nav-stacked">
+		<li role="presentation" class="{{ menuhome|default:'' }}"><a href="/" align="center">Home</a></li>
+		<li role="presentation" class ="{{ menusearch|default:'' }}"><a href="" align="center">Search</span></a></li>
+		{% if user.is_staff %}
+			<li role="presentation" class ="success"><a href="/admin" align="center">Site Admin Panel</span></a></li>
+		{% endif %}
+
+	<span id="leftsidebarspan">
+		<h3>RESTAURANT</h3>
+		<hr>
+	</span>
+    <ul class="nav nav-pills nav-stacked">	
+  		{% if user.is_authenticated %}
+  			<li role="presentation" class ="{{ menulogin|default:'' }}"><a href="/administrate" align="center">Administrate</a></li>
+  			<li role="presentation" ><a href="/logout" align="center">Sign Out</a></li>
+
+  		{% else %}
+  			<li role="presentation" class ="{{ menuregister|default:'' }}"><a href="/register" align="center">Register</a></li>
+			<li role="presentation" class ="{{ menulogin|default:'' }}"><a href="/login" align="center">Sign In</a></li>
+  		{% endif %}
+	</ul>

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block "left-content" %}
+	<span id="leftsidebarspan">
+		<h3>MENU</h3>
+		<hr>
+	</span>
+    <ul class="nav nav-pills nav-stacked">
+		<li role="presentation" class="{{ menuhome|default:'' }}"><a href="/" align="center">Home</a></li>
+		<li role="presentation" class ="{{ menusearch|default:'' }}"><a href="/search" align="center">Search</span></a></li>
+		{% if user.is_staff %}
+			<li role="presentation" class ="success"><a href="/admin" align="center">Site Admin Panel</span></a></li>
+		{% endif %}
+
+	<span id="leftsidebarspan">
+		<h3>RESTAURANT</h3>
+		<hr>
+	</span>
+    <ul class="nav nav-pills nav-stacked">	
+  		{% if user.is_authenticated %}
+  			<li role="presentation" class ="{{ menulogin|default:'' }}"><a href="/administrate" align="center">Restaurant Panel</a></li>
+  			<li role="presentation" ><a href="/logout" align="center">Sign Out</a></li>
+
+  		{% else %}
+  			<li role="presentation" class ="{{ menuregister|default:'' }}"><a href="/register" align="center">Register</a></li>
+			<li role="presentation" class ="{{ menulogin|default:'' }}"><a href="/login" align="center">Sign In</a></li>
+  		{% endif %}
+	</ul>
+{% endblock %}
+
+{% block "right-content" %}
+<div class="row">
+    <div class="col col-md-10 col-md-offset-1" style="padding-top: 20px;">
+
+		<div class="panel panel-default" id="registration-panel">
+			<div class="panel-heading" style="background-color:#2C3E4F; color:white;">
+		    	<h3 align="center">Registration</h3>
+		  	</div>
+		  	
+		  	<div class="panel-body">
+		    	<form method="post" name="registrationform" id="registrationform" onsubmit="return validateForm()">
+		    		{% csrf_token %}
+		    		
+		    		<div class="input-group">
+		    			<span class="input-group-addon" id='prepandID'>Restaurant Name :</span>
+		    			<input type="text" class="form-control" placeholder="Only alphabets and spaces are allowed" name="restaurant_name" maxlength="70" minlength="5" pattern="[a-zA-Z .]*" value="{{ restaurant|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group {{ errorclass|default:'' }}">
+		    			<span class="input-group-addon" id="prepandID">Login :</span>
+		    			<input type="text" class="form-control" placeholder="Alphabets, numbers & underscores are allowed" name="login" maxlength="30" minlength="5" pattern="[a-zA-z0-9_]*" value="{{ login|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group " >
+		    			<span class="input-group-addon" id="prepandID">Email :</span>
+		    			<input type="email" class="form-control" name="email" x-moz-errormessage="This is not a valid e-mail" value="{{ email|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group">
+		    			<span class="input-group-addon" id="prepandID">Password :</span>
+		    			<input type="password" class="form-control" name="password" maxlength="20" minlength="8" value="{{ password|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group">
+		    			<span class="input-group-addon" id="prepandID">Retype Password :</span>
+		    			<input type="password" class="form-control" name="retype-password" maxlength="20" minlength="6" value="{{ password|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group" >
+		    			<span class="input-group-addon" id="prepandID">proprietor Name :</span>
+		    			<input type="text" class="form-control" placeholder="Only alphabets and spaces are allowed" name="proprietor" maxlength="70" minlength="6" pattern="[a-zA-Z .]*" value="{{ proprietor|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group">
+		    			<span class="input-group-addon" id="prepandID">Address :</span>
+		    			<input type="text" class="form-control" name="address" maxlength="100" minlength="10" value="{{ address|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group">
+		    			<span class="input-group-addon" id="prepandID">District :</span>
+		    			<input type="text" class="form-control" name="district" maxlength="20" minlength="3" pattern="[a-zA-Z]*" value="{{ district|default:'' }}" required>
+		    		</div>
+
+		    		<div class="input-group">
+		    			<span class="input-group-addon" id="prepandID">Website (optional) :</span>
+		    			<input type="url" class="form-control" name="website" value="{{ website|default:'' }}">
+		    		</div>
+					
+					<div class="input-group">
+		    			<span class="input-group-addon" id="prepandID">Latitude :</span>
+		    			<input type="text" class="form-control" id="latitude-id"  name="latitude" pattern="-?\d{1,3}\.\d+"  value="{{ latitude|default:'' }}" required>
+		    		</div>
+					
+					<div class="input-group" >
+		    			<span class="input-group-addon" id="prepandID">Longitude :</span>
+		    			<input type="text" class="form-control" id="longitude-id" placeholder="" name="longitude" pattern="-?\d{1,3}\.\d+"  value="{{ longitude|default:'' }}"  required>
+		    		</div>
+					
+		    		<div class="row">
+		    			<div id ="map-container" class="col col-md-12">
+							<div id="map-header" class="col col-md-12">
+								<h4 align="center"><span>Locate your restaurant on the map</span></h4>
+							</div>
+							<div id="map-canvas" class="col col-md-12">
+								
+							</div>
+						</div>
+					</div>
+
+					<button class="btn btn-primary col col-md-6 col-md-offset-3" style="margin-top:10px;" type="submit">Register</button>
+		    	</form>
+		  	</div>
+		</div>
+    </div>
+    
+</div>
+{% endblock %}
+
+
+{% block "css" %}
+<style>
+form button, form .input-group {
+    margin-top: 5px;
+}
+</style>
+{% endblock %}
+
+{% block "js" %}
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="{% static 'js/resturant.js' %}"></script>
+{% endblock %}
